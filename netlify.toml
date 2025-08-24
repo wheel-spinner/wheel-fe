@@ -1,5 +1,5 @@
 [build]
-  base = "wheel-fe/"
+  base = ""
   publish = "dist"
   command = "npm install --legacy-peer-deps && npm run build"
 
