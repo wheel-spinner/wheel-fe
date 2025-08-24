@@ -8,7 +8,7 @@ import { useWheelConfig, useWheelSpin } from "../hooks";
 import { useWheelContext } from "../contexts";
 import { type UserRegistration } from "../types";
 import { APP_CONFIG, ERROR_MESSAGES } from "../utils/constants";
-import { isWinningPrize } from "../utils/helpers";
+import { isWinningPrize, isIPhone } from "../utils/helpers";
 import HAMCLogo from "../assets/HAMC.png";
 
 export const WheelApp: React.FC = () => {
@@ -35,7 +35,15 @@ export const WheelApp: React.FC = () => {
     "home" | "register" | "wheel" | "already-won"
   >("home");
   const [hasSpunInCurrentSession, setHasSpunInCurrentSession] = useState(false);
-  const [selectedSegmentIndex, setSelectedSegmentIndex] = useState<number | undefined>(undefined);
+  const [selectedSegmentIndex, setSelectedSegmentIndex] = useState<
+    number | undefined
+  >(undefined);
+  const [isIPhoneDevice, setIsIPhoneDevice] = useState(false);
+
+  // Detect iPhone device on mount
+  useEffect(() => {
+    setIsIPhoneDevice(isIPhone());
+  }, []);
 
   // Initialize state based on user data
   useEffect(() => {
@@ -74,26 +82,29 @@ export const WheelApp: React.FC = () => {
   };
 
   const handleSpin = async () => {
-    console.log('[WheelApp] handleSpin called');
+    console.log("[WheelApp] handleSpin called");
     if (!currentUser || !wheelConfig) {
-      console.log('[WheelApp] Missing user or config:', { currentUser, wheelConfig });
+      console.log("[WheelApp] Missing user or config:", {
+        currentUser,
+        wheelConfig,
+      });
       return;
     }
 
     try {
-      console.log('[WheelApp] Fetching result for user:', currentUser.userId);
+      console.log("[WheelApp] Fetching result for user:", currentUser.userId);
       setIsFetchingResult(true);
       clearError();
 
       // First, get the result from the API
       const result = await performSpin(currentUser.userId);
-      console.log('[WheelApp] Spin result received:', result);
+      console.log("[WheelApp] Spin result received:", result);
 
       // Find the index of the result in the wheel segments
       const resultIndex = wheelConfig.segments.findIndex(
-        segment => segment.key === result.result.key
+        (segment) => segment.key === result.result.key
       );
-      console.log('[WheelApp] Result segment index:', resultIndex);
+      console.log("[WheelApp] Result segment index:", resultIndex);
       setSelectedSegmentIndex(resultIndex >= 0 ? resultIndex : undefined);
 
       // Update user data with spin result
@@ -107,12 +118,12 @@ export const WheelApp: React.FC = () => {
       setCurrentUser(updatedUser);
       setHasSpunInCurrentSession(true); // Mark as spun in current session
 
-      console.log('[WheelApp] Calling finishSpin with result:', result.result);
+      console.log("[WheelApp] Calling finishSpin with result:", result.result);
       finishSpin(result.result);
-      
+
       // Now that we have the result, start the wheel animation
       setIsFetchingResult(false);
-      console.log('[WheelApp] Starting wheel animation');
+      console.log("[WheelApp] Starting wheel animation");
       setIsSpinning(true);
       startSpin();
       // Result will be shown when wheel animation completes via onSpinComplete callback
@@ -139,10 +150,10 @@ export const WheelApp: React.FC = () => {
   };
 
   const handleResultClose = () => {
-    console.log('[WheelApp] handleResultClose called');
+    console.log("[WheelApp] handleResultClose called");
     // After seeing result, redirect to already won page
     if (currentUser?.hasSpun) {
-      console.log('[WheelApp] User has spun, redirecting to already-won page');
+      console.log("[WheelApp] User has spun, redirecting to already-won page");
       setCurrentPage("already-won");
     }
   };
@@ -309,21 +320,25 @@ export const WheelApp: React.FC = () => {
                     isSpinning={isSpinning}
                     selectedSegmentIndex={selectedSegmentIndex}
                     onSpinComplete={() => {
-                      console.log('[WheelApp] onSpinComplete callback triggered');
-                      console.log('[WheelApp] Current state:', {
+                      console.log(
+                        "[WheelApp] onSpinComplete callback triggered"
+                      );
+                      console.log("[WheelApp] Current state:", {
                         isSpinning,
                         hasResult: !!wheelState.result,
                         result: wheelState.result,
-                        selectedSegmentIndex
+                        selectedSegmentIndex,
                       });
                       // Wheel animation has completed, show the result
                       if (wheelState.result) {
-                        console.log('[WheelApp] Showing result modal');
+                        console.log("[WheelApp] Showing result modal");
                         showResult();
                         setIsSpinning(false);
                         setSelectedSegmentIndex(undefined); // Reset for next spin
                       } else {
-                        console.log('[WheelApp] No result available yet, not showing modal');
+                        console.log(
+                          "[WheelApp] No result available yet, not showing modal"
+                        );
                       }
                     }}
                     size={350}
@@ -338,9 +353,15 @@ export const WheelApp: React.FC = () => {
                   size="lg"
                   disabled={isFetchingResult || isSpinning}
                   loading={isFetchingResult || isSpinning}
-                  className="px-8 py-4 text-2xl font-handcaps transform hover:scale-105 transition-transform duration-200 shadow-2xl"
+                  className={`px-8 py-4 text-2xl font-handcaps transform hover:scale-105 transition-transform duration-200 shadow-2xl ${
+                    isIPhoneDevice ? "mt-[50px]" : ""
+                  }`}
                 >
-                  {isFetchingResult ? "Getting your prize..." : isSpinning ? "Spinning..." : "SPIN THE WHEEL!"}
+                  {isFetchingResult
+                    ? "Getting your prize..."
+                    : isSpinning
+                    ? "Spinning..."
+                    : "SPIN THE WHEEL!"}
                 </Button>
               )}
 

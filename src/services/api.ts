@@ -46,7 +46,7 @@ class ApiClient {
             apiError?.error === "ALREADY_SPUN"
           ) {
             const customError = new Error(
-              apiError.message || "User has already spun the wheel"
+              apiError.message || "You have already spun the wheel."
             );
             (customError as any).status = 409;
             (customError as any).errorCode = "ALREADY_SPUN";

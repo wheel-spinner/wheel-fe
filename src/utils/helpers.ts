@@ -133,3 +133,19 @@ export const normalizeAngle = (angle: number): number => {
   while (angle >= 360) angle -= 360;
   return angle;
 };
+
+/**
+ * Detect if the user is on an iPhone
+ */
+export const isIPhone = (): boolean => {
+  if (typeof window === "undefined" || typeof navigator === "undefined") {
+    return false;
+  }
+
+  // Check for iPhone in user agent
+  const userAgent =
+    navigator.userAgent || navigator.vendor || (window as any).opera;
+
+  // iPhone detection - checks for iPhone specifically
+  return /iPhone/i.test(userAgent);
+};
