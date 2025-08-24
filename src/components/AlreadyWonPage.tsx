@@ -17,9 +17,9 @@ export const AlreadyWonPage: React.FC<AlreadyWonPageProps> = ({
       <div className="container mx-auto px-4 py-4 md:py-8 text-center max-w-2xl w-full">
         {/* HAMC Logo */}
         <div className="mb-4 md:mb-6">
-          <img 
-            src={HAMCLogo} 
-            alt="Houston American Medical Center" 
+          <img
+            src={HAMCLogo}
+            alt="Houston American Medical Center"
             className="mx-auto h-16 md:h-20 w-auto object-contain"
           />
         </div>
@@ -66,7 +66,9 @@ export const AlreadyWonPage: React.FC<AlreadyWonPageProps> = ({
                   Your Amazing Prize:
                 </h3>
                 <div className="text-xl md:text-2xl font-sunday-shine text-green-700 bg-white/50 rounded-xl p-3 md:p-4 border border-green-200">
-                  {user.result?.label || "Special Prize"}
+                  {user.result?.label === "Face Laser Carbon"
+                    ? " 1 Session of Face Laser Carbon"
+                    : user.result?.label}
                 </div>
               </div>
 

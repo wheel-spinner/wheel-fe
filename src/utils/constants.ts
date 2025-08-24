@@ -3,7 +3,7 @@ export const APP_CONFIG = {
   APP_NAME: "Wheel Spinner",
   VERSION: "1.0.0",
   API_TIMEOUT: 10000, // 10 seconds
-  SPIN_DURATION: 3000, // 3 seconds for wheel animation
+  SPIN_DURATION: 5000, // 5 seconds for wheel animation (matches spinDuration prop)
   RESULT_DISPLAY_DELAY: 500, // Delay before showing result after spin
 } as const;
 

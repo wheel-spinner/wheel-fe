@@ -2,10 +2,7 @@ import React, { useState } from "react";
 import { type UserRegistration, type FormErrors } from "../../types";
 import { useUserRegistration, useFormValidation } from "../../hooks";
 import { Button, Input, Alert, PhoneInput } from "../ui";
-import {
-  normalizeEmail,
-  normalizeName,
-} from "../../utils/validation";
+import { normalizeEmail, normalizeName } from "../../utils/validation";
 import "../../styles/phone-input.css";
 
 interface RegistrationFormProps {
@@ -35,7 +32,8 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
     switch (field) {
       case "firstName":
       case "lastName":
-        normalizedValue = normalizeName(value);
+        // Only trim leading/trailing spaces, allow natural typing of spaces
+        normalizedValue = value.replace(/^\s+/, ""); // Remove leading spaces only
         break;
       case "email":
         normalizedValue = normalizeEmail(value);
@@ -61,16 +59,23 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate form
-    const validationErrors = validateRegistrationForm(formData);
+    // Apply final normalization before validation and submission
+    const normalizedFormData = {
+      ...formData,
+      firstName: normalizeName(formData.firstName),
+      lastName: normalizeName(formData.lastName),
+    };
+
+    // Validate form with normalized data
+    const validationErrors = validateRegistrationForm(normalizedFormData);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
 
     try {
-      const result = await register(formData);
-      onSuccess(formData, result.userId);
+      const result = await register(normalizedFormData);
+      onSuccess(normalizedFormData, result.userId);
     } catch (err) {
       // Error is handled by the hook
       console.error("Registration error:", err);

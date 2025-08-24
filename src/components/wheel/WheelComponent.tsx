@@ -21,6 +21,7 @@ export const WheelComponent: React.FC<WheelComponentProps> = ({
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [startingPosition, setStartingPosition] = useState(0);
+  const [hasStartedSpinning, setHasStartedSpinning] = useState(false);
 
   // Convert WheelSegment[] to react-custom-roulette data format
   const wheelData = segments.map((segment, index) => ({
@@ -32,21 +33,45 @@ export const WheelComponent: React.FC<WheelComponentProps> = ({
   }));
 
   useEffect(() => {
-    if (isSpinning && !mustSpin) {
+    console.log('[WheelComponent] useEffect triggered:', {
+      isSpinning,
+      mustSpin,
+      hasStartedSpinning,
+      selectedSegmentIndex,
+      segmentsLength: segments.length
+    });
+    
+    // Only start spinning if isSpinning is true and we haven't started yet
+    if (isSpinning && !hasStartedSpinning) {
       const targetIndex =
         selectedSegmentIndex ?? Math.floor(Math.random() * segments.length);
       // Set a random starting position to make each spin feel different
-      setStartingPosition(Math.floor(Math.random() * segments.length));
+      const startPos = Math.floor(Math.random() * segments.length);
+      
+      console.log('[WheelComponent] Starting spin:', {
+        targetIndex,
+        startingPosition: startPos,
+        prizeNumber: targetIndex
+      });
+      
+      setStartingPosition(startPos);
       setPrizeNumber(targetIndex);
       setMustSpin(true);
+      setHasStartedSpinning(true);
     }
-  }, [isSpinning, selectedSegmentIndex, mustSpin, segments.length]);
+    
+    // Reset hasStartedSpinning when isSpinning becomes false
+    if (!isSpinning && hasStartedSpinning) {
+      console.log('[WheelComponent] Resetting hasStartedSpinning');
+      setHasStartedSpinning(false);
+    }
+  }, [isSpinning, selectedSegmentIndex, hasStartedSpinning, segments.length]);
 
   const handleStopSpinning = () => {
+    console.log('[WheelComponent] handleStopSpinning called, wheel animation complete');
     setMustSpin(false);
-    setTimeout(() => {
-      onSpinComplete();
-    }, ANIMATION_CONFIG.RESULT_FADE_IN_DURATION);
+    // Call onSpinComplete immediately when wheel stops
+    onSpinComplete();
   };
 
   if (segments.length === 0) {
@@ -54,6 +79,14 @@ export const WheelComponent: React.FC<WheelComponentProps> = ({
       <div className="flex items-center justify-center">Loading wheel...</div>
     );
   }
+
+  console.log('[WheelComponent] Rendering wheel with:', {
+    mustSpin,
+    prizeNumber,
+    startingPosition,
+    hasStartedSpinning,
+    segmentsCount: segments.length
+  });
 
   return (
     <div className="flex items-center justify-center">
