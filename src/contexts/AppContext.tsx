@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useReducer } from "react";
 import type { ReactNode } from "react";
-import type { AppState, User, WheelConfig, SpinResult } from "../types";
+import type { AppState, User, WheelConfig } from "../types";
 
 // Action types
 type AppAction =

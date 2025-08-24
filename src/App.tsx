@@ -1,7 +1,6 @@
-import React from 'react';
-import { AppProvider, WheelProvider } from './contexts';
-import { WheelApp } from './components/WheelApp';
-import './index.css';
+import { AppProvider, WheelProvider } from "./contexts";
+import { WheelApp } from "./components/WheelApp";
+import "./index.css";
 
 function App() {
   return (

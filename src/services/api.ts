@@ -38,17 +38,22 @@ class ApiClient {
       (error: AxiosError<ApiError>) => {
         if (error.response) {
           // Server responded with error status
-          const apiError = error.response.data;
-          
+          const apiError: any = error.response.data;
+
           // For 409 status, preserve the original error structure
-          if (error.response.status === 409 && apiError?.error === "ALREADY_SPUN") {
-            const customError = new Error(apiError.message || "User has already spun the wheel");
+          if (
+            error.response.status === 409 &&
+            apiError?.error === "ALREADY_SPUN"
+          ) {
+            const customError = new Error(
+              apiError.message || "User has already spun the wheel"
+            );
             (customError as any).status = 409;
             (customError as any).errorCode = "ALREADY_SPUN";
             (customError as any).hasSpun = apiError.hasSpun;
             throw customError;
           }
-          
+
           throw new Error(
             apiError?.message || error.message || "An error occurred"
           );

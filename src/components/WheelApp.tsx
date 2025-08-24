@@ -7,7 +7,6 @@ import { AlreadyWonPage } from "./AlreadyWonPage";
 import { useWheelConfig, useWheelSpin } from "../hooks";
 import { useWheelContext } from "../contexts";
 import { type UserRegistration } from "../types";
-import { SpinService } from "../services";
 import { APP_CONFIG, ERROR_MESSAGES } from "../utils/constants";
 import { isWinningPrize } from "../utils/helpers";
 import HAMCLogo from "../assets/HAMC.png";
@@ -208,9 +207,9 @@ export const WheelApp: React.FC = () => {
         <div className="container mx-auto px-4 py-4 md:py-8">
           {/* HAMC Logo */}
           <div className="text-center mb-4 md:mb-6">
-            <img 
-              src={HAMCLogo} 
-              alt="Houston American Medical Center" 
+            <img
+              src={HAMCLogo}
+              alt="Houston American Medical Center"
               className="mx-auto h-16 md:h-20 w-auto object-contain"
             />
           </div>
@@ -262,9 +261,9 @@ export const WheelApp: React.FC = () => {
       <div className="container mx-auto px-4 py-4 md:py-8">
         {/* HAMC Logo */}
         <div className="text-center mb-4 md:mb-6">
-          <img 
-            src={HAMCLogo} 
-            alt="Houston American Medical Center" 
+          <img
+            src={HAMCLogo}
+            alt="Houston American Medical Center"
             className="mx-auto h-16 md:h-20 w-auto object-contain"
           />
         </div>
