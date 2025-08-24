@@ -1,0 +1,81 @@
+/* Custom styles for react-phone-number-input */
+.PhoneInput {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  background-color: white;
+}
+
+.PhoneInput:focus-within {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.phone-input-error {
+  border-color: #ef4444 !important;
+}
+
+.phone-input-disabled {
+  background-color: #f3f4f6 !important;
+  cursor: not-allowed !important;
+}
+
+.PhoneInputCountry {
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.PhoneInputCountryIcon {
+  width: 1.5rem;
+  height: 1rem;
+}
+
+.PhoneInputCountryIcon--border {
+  border: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+}
+
+.PhoneInputCountrySelectArrow {
+  margin-left: 0.25rem;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #6b7280;
+}
+
+.PhoneInputCountrySelect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.PhoneInputInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  padding: 0;
+  color: #111827;
+}
+
+.PhoneInputInput::placeholder {
+  color: #9ca3af;
+}
+
+.PhoneInputInput:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
