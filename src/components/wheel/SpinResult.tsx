@@ -60,7 +60,7 @@ export const SpinResult: React.FC<SpinResultProps> = ({
       <Modal
         isOpen={isVisible}
         onClose={onClose}
-        title={isWinner ? "Congratulations!" : "Try Again"}
+        title={isWinner ? "Congratulations!" : "Hard Luck!"}
         size="md"
         closeOnOverlayClick={false}
         showCloseButton={false}
@@ -125,11 +125,13 @@ export const SpinResult: React.FC<SpinResultProps> = ({
                 {result.label}
               </h3>
               <p className="text-gray-600 mb-6">
-                Better luck next time! Thank you for participating in our wheel spin.
+                Better luck next time! Thank you for participating in our wheel
+                spin.
               </p>
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                 <p className="text-sm text-blue-800">
-                  Keep an eye out for future opportunities to spin the wheel and win prizes!
+                  Keep an eye out for future opportunities to spin the wheel and
+                  win prizes!
                 </p>
               </div>
             </>
