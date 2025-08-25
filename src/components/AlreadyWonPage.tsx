@@ -141,11 +141,11 @@ export const AlreadyWonPage: React.FC<AlreadyWonPageProps> = ({
         <Button
           onClick={onRestart}
           size="lg"
-          className="font-bold text-[#543584] border-2 border-[#543584] hover:bg-[#543584]/10 px-6 py-3 flex items-center gap-2 mx-auto font-handcaps"
+          className="font-bold text-[#543584] border-2 border-[#543584] hover:bg-[#543584]/60 px-6 py-3 flex items-center gap-2 mx-auto font-handcaps"
           variant="ghost"
         >
           <img src={HomeSvg} alt="Home" className="w-5 h-5" />
-          <span>Back to Home</span>
+          <span style={{ color: "#543584" }}>Back to Home</span>
         </Button>
       </div>
     </div>

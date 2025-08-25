@@ -9,7 +9,7 @@ interface WheelComponentProps {
   isSpinning: boolean;
   onSpinComplete: () => void;
   selectedSegmentIndex?: number;
-  size?: number;
+  onClick?: () => void;
 }
 
 export const WheelComponent: React.FC<WheelComponentProps> = ({
@@ -17,7 +17,7 @@ export const WheelComponent: React.FC<WheelComponentProps> = ({
   isSpinning,
   onSpinComplete,
   selectedSegmentIndex,
-  size = 550,
+  onClick,
 }) => {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
@@ -88,8 +88,6 @@ export const WheelComponent: React.FC<WheelComponentProps> = ({
     );
   }
 
-  console.log(size);
-
   return (
     <div className="flex items-center justify-center relative">
       <div className="relative">
@@ -123,7 +121,10 @@ export const WheelComponent: React.FC<WheelComponentProps> = ({
           }}
         />
 
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 top-[-30px] left-[10px]">
+        <div
+          className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 top-[-30px] left-[10px]"
+          onClick={onClick}
+        >
           <img src={WheelIcon} alt="Wheel" className="w-20 h-20" />
         </div>
       </div>

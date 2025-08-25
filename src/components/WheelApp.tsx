@@ -386,29 +386,17 @@ export const WheelApp: React.FC = () => {
                       segments={wheelConfig.segments}
                       isSpinning={isSpinning}
                       selectedSegmentIndex={selectedSegmentIndex}
+                      onClick={handleSpin}
                       onSpinComplete={() => {
-                        console.log(
-                          "[WheelApp] onSpinComplete callback triggered"
-                        );
-                        console.log("[WheelApp] Current state:", {
-                          isSpinning,
-                          hasResult: !!wheelState.result,
-                          result: wheelState.result,
-                          selectedSegmentIndex,
-                        });
                         // Wheel animation has completed, show the result
                         if (wheelState.result) {
-                          console.log("[WheelApp] Showing result modal");
                           showResult();
                           setIsSpinning(false);
                           setSelectedSegmentIndex(undefined); // Reset for next spin
                         } else {
-                          console.log(
-                            "[WheelApp] No result available yet, not showing modal"
-                          );
+                          console.log("[WheelApp] No result available yet");
                         }
                       }}
-                      size={350}
                     />
                   </div>
                 </div>
