@@ -1,7 +1,10 @@
 import React from "react";
 import { Button } from "./ui";
 import { type User } from "../types";
-import HAMCLogo from "../assets/HAMC.png";
+import Logo from "../assets/logo.png";
+import PrizeSvg from "../assets/prize.svg";
+import Star2Svg from "../assets/star2.svg";
+import HomeSvg from "../assets/home.svg";
 
 interface AlreadyWonPageProps {
   user: User;
@@ -13,59 +16,62 @@ export const AlreadyWonPage: React.FC<AlreadyWonPageProps> = ({
   onRestart,
 }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-blue-50 to-secondary-50 flex items-center justify-center overflow-y-auto py-4 md:py-0">
-      <div className="container mx-auto px-4 py-4 md:py-8 text-center max-w-2xl w-full">
-        {/* HAMC Logo */}
-        <div className="mb-4 md:mb-6">
+    <div className="min-h-screen overflow-y-auto relative">
+      <div className="absolute inset-0 bg-white/50 z-0"></div>
+      <div className="container mx-auto px-4 py-4 md:py-8 text-center max-w-4xl w-full relative z-10">
+        {/* Logo */}
+        <div className="mb-6 md:mb-8">
           <img
-            src={HAMCLogo}
-            alt="Houston American Medical Center"
-            className="mx-auto h-16 md:h-20 w-auto object-contain"
+            src={Logo}
+            alt="Logo"
+            className="mx-auto h-20 md:h-24 lg:h-28 w-auto object-contain"
           />
         </div>
 
-        {/* Header */}
+        {/* Main Title - copied from HomePage */}
         <div className="mb-6 md:mb-8">
-          <h1 className="text-3xl md:text-4xl lg:text-6xl font-sunday-shine text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-secondary-500 mb-4">
-            Welcome Back!
-          </h1>
-          <p className="text-lg md:text-xl font-sketch-chalk text-gray-700 mb-2">
-            Hey {user.firstName}! 👋
-          </p>
+          {/* Wheel Spinner Title with rotated background */}
+          <div className="relative mb-6">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="bg-[#00A1AF]/90 h-12 md:h-16 lg:h-20 w-full transform -rotate-3 rounded-sm filter bg-blend-multiply"></div>
+            </div>
+            <h1 className="relative text-5xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-9xl font-sunday-shine text-white mb-4 drop-shadow-lg z-10">
+              Wheel Spinner
+            </h1>
+          </div>
+
+          {/* Welcome Back text */}
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <img src={Star2Svg} alt="Star" className="w-6 h-6" />
+            <p className="text-3xl md:text-4xl lg:text-5xl font-handcaps font-black text-[#543584]">
+              Welcome Back, {user.firstName}!
+            </p>
+            <img src={Star2Svg} alt="Star" className="w-6 h-6" />
+          </div>
         </div>
 
         {/* Status Card */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-6 md:p-8 shadow-2xl border border-primary-100 mb-6 md:mb-8">
+        <div className="border-2 border-[#543584] rounded-xl p-6 md:p-8 mb-6 md:mb-8 max-w-2xl mx-auto">
           {user.isWinner ? (
             <>
               {/* Winner Status */}
               <div className="mb-6">
-                <div className="mx-auto flex items-center justify-center h-24 w-24 rounded-full bg-green-100 mb-4">
-                  <svg
-                    className="h-12 w-12 text-green-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
+                <div className="mx-auto flex items-center justify-center h-24 w-24 rounded-full border-2 border-[#00A4C2] mb-4">
+                  <img src={PrizeSvg} alt="Prize" className="w-14 h-14" />
                 </div>
-                <h2 className="text-2xl md:text-3xl font-handcaps text-green-700 mb-2">
-                  🎉 You Already Won! 🎉
+                <h2 className="text-2xl md:text-3xl font-handcaps text-[#543584] mb-2 flex items-center justify-center gap-3">
+                  <img src={Star2Svg} alt="Star" className="w-7 h-7" />
+                  <span>You Already Won!</span>
+                  <img src={Star2Svg} alt="Star" className="w-7 h-7" />
                 </h2>
               </div>
 
               {/* Prize Display */}
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-4 md:p-6 mb-6">
-                <h3 className="text-lg md:text-xl font-bold text-green-800 mb-2 font-handcaps">
+              <div className="border-2 border-[#00A4C2] rounded-xl p-4 md:p-6 mb-6">
+                <h3 className="text-lg md:text-xl font-handcaps font-bold text-[#543584] mb-2">
                   Your Amazing Prize:
                 </h3>
-                <div className="text-xl md:text-2xl font-sunday-shine text-green-700 bg-white/50 rounded-xl p-3 md:p-4 border border-green-200">
+                <div className="text-xl md:text-2xl font-poppins font-bold text-[#543584] p-3 md:p-4">
                   {user.result?.label === "Face Laser Carbon"
                     ? " 1 Session of Face Laser Carbon"
                     : user.result?.label}
@@ -73,20 +79,20 @@ export const AlreadyWonPage: React.FC<AlreadyWonPageProps> = ({
               </div>
 
               {/* Instructions */}
-              <div className="bg-gradient-to-r from-blue-50 to-primary-50 border border-blue-200 rounded-2xl p-4 md:p-6 mb-6">
-                <h4 className="font-bold text-blue-800 mb-3 flex items-center justify-center">
-                  <span className="text-xl mr-2">📧</span>
-                  What's Next?
+              <div className="border border-[#543584] rounded-xl p-4 md:p-6 mb-6">
+                <h4 className="font-handcaps font-bold text-[#543584] mb-3 flex items-center justify-center gap-2">
+                  <img src={Star2Svg} alt="Star" className="w-5 h-5" />
+                  <span>What's Next?</span>
                 </h4>
-                <ul className="text-sm text-blue-700 space-y-2 text-left">
+                <ul className="text-sm text-[#543584] font-poppins space-y-2 text-left">
                   <li className="flex items-start">
-                    <span className="text-blue-500 font-bold mr-2">1.</span>
+                    <span className="text-[#00A4C2] font-bold mr-2">1.</span>
                     <span>
                       Check your email at <strong>{user.email}</strong>
                     </span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-blue-500 font-bold mr-2">2.</span>
+                    <span className="text-[#00A4C2] font-bold mr-2">2.</span>
                     <span>
                       Look for prize claim instructions (check spam folder too!)
                     </span>
@@ -98,9 +104,9 @@ export const AlreadyWonPage: React.FC<AlreadyWonPageProps> = ({
             <>
               {/* Non-Winner Status */}
               <div className="mb-6">
-                <div className="mx-auto flex items-center justify-center h-24 w-24 rounded-full bg-amber-100 mb-4">
+                <div className="mx-auto flex items-center justify-center h-24 w-24 rounded-full border-2 border-[#543584] mb-4">
                   <svg
-                    className="h-12 w-12 text-amber-600"
+                    className="h-12 w-12 text-[#543584]"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -113,16 +119,16 @@ export const AlreadyWonPage: React.FC<AlreadyWonPageProps> = ({
                     />
                   </svg>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-handcaps text-amber-700 mb-2">
+                <h2 className="text-2xl md:text-3xl font-handcaps text-[#543584] mb-2">
                   Thanks for Playing!
                 </h2>
               </div>
 
-              <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-4 md:p-6 mb-6">
-                <p className="text-amber-800 font-medium mb-2">
+              <div className="border border-[#543584] rounded-xl p-4 md:p-6 mb-6">
+                <p className="text-[#543584] font-poppins font-semibold mb-2">
                   You've already used your spin!
                 </p>
-                <p className="text-sm text-amber-700">
+                <p className="text-sm text-[#543584] font-poppins">
                   Better luck next time. Keep an eye out for future
                   opportunities to win prizes!
                 </p>
@@ -135,10 +141,11 @@ export const AlreadyWonPage: React.FC<AlreadyWonPageProps> = ({
         <Button
           onClick={onRestart}
           size="lg"
-          className="px-8 py-3 text-lg font-handcaps"
-          variant="outline"
+          className="font-bold text-[#543584] border-2 border-[#543584] hover:bg-[#543584]/10 px-6 py-3 flex items-center gap-2 mx-auto font-handcaps"
+          variant="ghost"
         >
-          🏠 Back to Home
+          <img src={HomeSvg} alt="Home" className="w-5 h-5" />
+          <span>Back to Home</span>
         </Button>
       </div>
     </div>

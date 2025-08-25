@@ -3,6 +3,7 @@ import { type UserRegistration, type FormErrors } from "../../types";
 import { useUserRegistration, useFormValidation } from "../../hooks";
 import { Button, Input, Alert, PhoneInput } from "../ui";
 import { normalizeEmail, normalizeName } from "../../utils/validation";
+import SubmitSvg from "../../assets/submit.svg";
 import "../../styles/phone-input.css";
 
 interface RegistrationFormProps {
@@ -87,64 +88,103 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({
       {error && <Alert type="error" message={error} onClose={clearError} />}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Input
-          label="First Name"
-          type="text"
-          value={formData.firstName}
-          onChange={(e) => handleInputChange("firstName", e.target.value)}
-          error={errors.firstName}
-          placeholder="Enter your first name"
-          required
-          disabled={disabled || loading}
-          maxLength={50}
-        />
+        <div className="w-full">
+          <label className="block text-sm font-poppins font-semibold text-[#543584] mb-1">
+            First Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            value={formData.firstName}
+            onChange={(e) => handleInputChange("firstName", e.target.value)}
+            placeholder="Enter your first name"
+            required
+            disabled={disabled || loading}
+            maxLength={50}
+            className="block w-full px-3 py-2 border-2 border-[#543584] rounded-md bg-transparent placeholder-[#543584]/50 text-[#543584] font-poppins focus:outline-none focus:ring-2 focus:ring-[#543584] focus:border-[#543584] disabled:opacity-50"
+          />
+          {errors.firstName && (
+            <p className="mt-1 text-sm text-red-600" role="alert">
+              {errors.firstName}
+            </p>
+          )}
+        </div>
 
-        <Input
-          label="Last Name"
-          type="text"
-          value={formData.lastName}
-          onChange={(e) => handleInputChange("lastName", e.target.value)}
-          error={errors.lastName}
-          placeholder="Enter your last name"
-          required
-          disabled={disabled || loading}
-          maxLength={50}
-        />
+        <div className="w-full">
+          <label className="block text-sm font-poppins font-semibold text-[#543584] mb-1">
+            Last Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            value={formData.lastName}
+            onChange={(e) => handleInputChange("lastName", e.target.value)}
+            placeholder="Enter your last name"
+            required
+            disabled={disabled || loading}
+            maxLength={50}
+            className="block w-full px-3 py-2 border-2 border-[#543584] rounded-md bg-transparent placeholder-[#543584]/50 text-[#543584] font-poppins focus:outline-none focus:ring-2 focus:ring-[#543584] focus:border-[#543584] disabled:opacity-50"
+          />
+          {errors.lastName && (
+            <p className="mt-1 text-sm text-red-600" role="alert">
+              {errors.lastName}
+            </p>
+          )}
+        </div>
       </div>
 
-      <Input
-        label="Email Address"
-        type="email"
-        value={formData.email}
-        onChange={(e) => handleInputChange("email", e.target.value)}
-        error={errors.email}
-        placeholder="Enter your email address"
-        required
-        disabled={disabled || loading}
-        autoComplete="email"
-      />
+      <div className="w-full">
+        <label className="block text-sm font-poppins font-semibold text-[#543584] mb-1">
+          Email Address <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="email"
+          value={formData.email}
+          onChange={(e) => handleInputChange("email", e.target.value)}
+          placeholder="Enter your email address"
+          required
+          disabled={disabled || loading}
+          autoComplete="email"
+          className="block w-full px-3 py-2 border-2 border-[#543584] rounded-md bg-transparent placeholder-[#543584]/50 text-[#543584] font-poppins focus:outline-none focus:ring-2 focus:ring-[#543584] focus:border-[#543584] disabled:opacity-50"
+        />
+        {errors.email && (
+          <p className="mt-1 text-sm text-red-600" role="alert">
+            {errors.email}
+          </p>
+        )}
+      </div>
 
-      <PhoneInput
-        label="Phone Number"
-        value={formData.phone}
-        onChange={(value) => handleInputChange("phone", value)}
-        error={errors.phone}
-        placeholder="Enter your phone number"
-        required
-        disabled={disabled || loading}
-      />
+      <div className="w-full registration-phone-input">
+        <label className="block text-sm font-poppins font-semibold text-[#543584] mb-1">
+          Phone Number <span className="text-red-500">*</span>
+        </label>
+        <PhoneInput
+          label=""
+          value={formData.phone}
+          onChange={(value) => handleInputChange("phone", value)}
+          error={errors.phone}
+          placeholder="Enter your phone number"
+          required
+          disabled={disabled || loading}
+        />
+      </div>
 
       <Button
         type="submit"
         size="lg"
-        className="w-full"
+        className="w-full bg-[#00A4C2] hover:bg-[#00A4C2]/90 border-none"
         loading={loading}
         disabled={disabled}
       >
-        {loading ? "Submitting..." : "Submit!"}
+        {loading ? (
+          "Submitting..."
+        ) : (
+          <>
+            <img src={SubmitSvg} alt="Submit" className="w-5 h-5 mr-2" />
+            <span className="font-handcaps font-bold">Submit!</span>
+          </>
+        )}
       </Button>
 
-      <p className="text-sm text-gray-500 text-center">
+      <p className="text-sm text-[#543584] font-poppins font-bold text-center">
         By registering, you agree to participate in the wheel spin. One entry
         per person.
       </p>

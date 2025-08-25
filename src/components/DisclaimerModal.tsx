@@ -1,5 +1,8 @@
 import React from "react";
 import { Button, Modal } from "./ui";
+import attentionIcon from "../assets/attention.svg";
+import playIcon from "../assets/play.svg";
+import logo from "../assets/logo.png";
 
 interface DisclaimerModalProps {
   isOpen: boolean;
@@ -11,78 +14,101 @@ export const DisclaimerModal: React.FC<DisclaimerModalProps> = ({
   onAccept,
 }) => {
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={() => {}} // Prevent closing without accepting
-      title="Important Information"
-      size="lg"
-      closeOnOverlayClick={false}
-      showCloseButton={false}
-    >
-      <div className="text-center py-4 px-2 sm:py-6 sm:px-4">
-        {/* Warning Icon */}
-        <div className="mx-auto flex items-center justify-center h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-amber-100 mb-4 sm:mb-6">
-          <svg
-            className="h-8 w-8 sm:h-10 sm:w-10 text-amber-600"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z"
-            />
-          </svg>
-        </div>
-
-        <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 font-sunday-shine px-2">
-          Wheel Spinner Rules
-        </h3>
-
-        <div className="text-left bg-gradient-to-r from-primary-50 to-secondary-50 border border-primary-200 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6">
-          <h4 className="text-lg sm:text-xl font-bold text-primary-700 mb-3 sm:mb-4 font-handcaps">
-            📋 Important Rules:
-          </h4>
-          <ul className="space-y-2 sm:space-y-3 text-sm sm:text-base text-gray-700">
-            <li className="flex items-start">
-              <span className="text-primary-500 font-bold mr-2">•</span>
-              <span className="font-medium">
-                Each person gets only <strong>ONE SPIN</strong> on the wheel
-              </span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-primary-500 font-bold mr-2">•</span>
-              <span className="font-medium">
-                You can win a maximum of <strong>ONE PRIZE</strong> per person
-              </span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-secondary-500 font-bold mr-2">•</span>
-              <span className="font-medium">
-                Winners will be contacted via email with prize claim
-                instructions
-              </span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-amber-500 font-bold mr-2">•</span>
-              <span className="font-medium">
-                Registration is required to participate
-              </span>
-            </li>
-          </ul>
-        </div>
-
-        <Button
-          onClick={onAccept}
-          size="lg"
-          className="w-full font-handcaps text-lg sm:text-xl py-3 sm:py-4"
-          variant="primary"
+    <div className="relative">
+      {/* Logo - Outside the modal at the top, above dark overlay */}
+      {isOpen && (
+        <div
+          className="fixed top-8 sm:top-6 md:top-8 left-1/2 transform -translate-x-1/2"
+          style={{ zIndex: 9999 }}
         >
-          I Understand - Let's Play! 🎪
-        </Button>
-      </div>
-    </Modal>
+          <img
+            src={logo}
+            alt="Logo"
+            className="h-24 sm:h-28 md:h-32 w-auto object-contain"
+          />
+        </div>
+      )}
+
+      <Modal
+        isOpen={isOpen}
+        onClose={() => {}} // Prevent closing without accepting
+        title=""
+        size="sm"
+        closeOnOverlayClick={false}
+        showCloseButton={false}
+        customModalBg="bg-[#543584] bg-opacity-50"
+      >
+        {/* Important Information Header with padding */}
+        <div className="py-2 sm:py-3 border-b border-white border-opacity-20 mx-3 sm:mx-6">
+          <h2 className="text-white text-lg sm:text-xl md:text-2xl font-semibold text-left">
+            Important Information
+          </h2>
+        </div>
+
+        <div className="text-center py-3 px-3 sm:py-4 sm:px-4">
+          {/* Attention Icon - No circular background */}
+          <div className="mx-auto flex items-center justify-center mb-3 sm:mb-4">
+            <img
+              src={attentionIcon}
+              alt="Attention"
+              className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24"
+            />
+          </div>
+
+          {/* Title with backdrop effect */}
+          <div className="relative mb-3 sm:mb-4">
+            <h3 className="absolute inset-0 text-xl sm:text-2xl md:text-3xl font-bold text-black opacity-30 font-sunday-shine px-1 sm:px-2 transform translate-x-1 translate-y-1">
+              Wheel Spinner Rules
+            </h3>
+            <h3 className="relative text-xl sm:text-2xl md:text-3xl font-bold text-white font-sunday-shine px-1 sm:px-2">
+              Wheel Spinner Rules
+            </h3>
+          </div>
+
+          <div className="text-left bg-white bg-opacity-60 border-2 border-[#00A4C2] rounded-xl p-2 sm:p-3 mb-3 sm:mb-4">
+            <h4 className="text-base sm:text-lg font-bold text-[#00A4C2] mb-2 sm:mb-3 font-handcaps">
+              Important Rules:
+            </h4>
+            <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-black">
+              <li className="flex items-start">
+                <span className="text-[#00A4C2] font-bold mr-2">•</span>
+                <span className="font-medium">
+                  Each person gets only <strong>ONE SPIN</strong> on the wheel
+                </span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-[#00A4C2] font-bold mr-2">•</span>
+                <span className="font-medium">
+                  You can win a maximum of <strong>ONE PRIZE</strong> per person
+                </span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-[#00A4C2] font-bold mr-2">•</span>
+                <span className="font-medium">
+                  Winners will be contacted via email with prize claim
+                  instructions
+                </span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-[#00A4C2] font-bold mr-2">•</span>
+                <span className="font-medium">
+                  Registration is required to participate
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          <Button
+            onClick={onAccept}
+            size="md"
+            className="w-full font-handcaps text-sm sm:text-base md:text-lg py-2 sm:py-3 flex items-center justify-center gap-1 sm:gap-2"
+            variant="primary"
+          >
+            I Understand — Let's Play!
+            <img src={playIcon} alt="Play" className="h-4 w-4 sm:h-5 sm:w-5" />
+          </Button>
+        </div>
+      </Modal>
+    </div>
   );
 };

@@ -4,12 +4,16 @@ import { Button, LoadingSpinner, Alert } from "./ui";
 import { DisclaimerModal } from "./DisclaimerModal";
 import { HomePage } from "./HomePage";
 import { AlreadyWonPage } from "./AlreadyWonPage";
+import { BackgroundLayout } from "./BackgroundLayout";
 import { useWheelConfig, useWheelSpin } from "../hooks";
 import { useWheelContext } from "../contexts";
 import { type UserRegistration } from "../types";
 import { APP_CONFIG, ERROR_MESSAGES } from "../utils/constants";
 import { isWinningPrize, isIPhone } from "../utils/helpers";
-import HAMCLogo from "../assets/HAMC.png";
+import Logo from "../assets/logo.png";
+import PrizeSvg from "../assets/prize.svg";
+import HomeSvg from "../assets/home.svg";
+import Star2Svg from "../assets/star2.svg";
 
 export const WheelApp: React.FC = () => {
   const {
@@ -181,261 +185,327 @@ export const WheelApp: React.FC = () => {
 
   if (configLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-600">Loading...</p>
+      <BackgroundLayout>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <LoadingSpinner size="lg" />
+            <p className="mt-4 text-gray-600">Loading...</p>
+          </div>
         </div>
-      </div>
+      </BackgroundLayout>
     );
   }
 
   if (configError || !wheelConfig) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="max-w-md w-full">
-          <Alert
-            type="error"
-            title="Configuration Error"
-            message={configError || ERROR_MESSAGES.WHEEL_CONFIG_ERROR}
-          />
-          <Button
-            onClick={() => window.location.reload()}
-            className="w-full mt-4"
-            variant="outline"
-          >
-            Refresh Page
-          </Button>
+      <BackgroundLayout>
+        <div className="min-h-screen flex items-center justify-center p-4">
+          <div className="max-w-md w-full">
+            <Alert
+              type="error"
+              title="Configuration Error"
+              message={configError || ERROR_MESSAGES.WHEEL_CONFIG_ERROR}
+            />
+            <Button
+              onClick={() => window.location.reload()}
+              className="w-full mt-4"
+              variant="outline"
+            >
+              Refresh Page
+            </Button>
+          </div>
         </div>
-      </div>
+      </BackgroundLayout>
     );
   }
 
   // Show disclaimer modal first
   if (showDisclaimer) {
     return (
-      <DisclaimerModal
-        isOpen={showDisclaimer}
-        onAccept={handleDisclaimerAccept}
-      />
+      <BackgroundLayout>
+        <DisclaimerModal
+          isOpen={showDisclaimer}
+          onAccept={handleDisclaimerAccept}
+        />
+      </BackgroundLayout>
     );
   }
 
   // Show home page
   if (currentPage === "home") {
-    return <HomePage onStart={handleStartFromHome} />;
+    return (
+      <BackgroundLayout>
+        <HomePage onStart={handleStartFromHome} />
+      </BackgroundLayout>
+    );
   }
 
   // Show already won page
   if (currentPage === "already-won" && currentUser) {
-    return <AlreadyWonPage user={currentUser} onRestart={handleBackToHome} />;
+    return (
+      <BackgroundLayout>
+        <AlreadyWonPage user={currentUser} onRestart={handleBackToHome} />
+      </BackgroundLayout>
+    );
   }
 
   // Show registration page
   if (currentPage === "register" || showRegistration) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-blue-50 to-secondary-50 overflow-y-auto">
-        <div className="container mx-auto px-4 py-4 md:py-8">
-          {/* HAMC Logo */}
-          <div className="text-center mb-4 md:mb-6">
-            <img
-              src={HAMCLogo}
-              alt="Houston American Medical Center"
-              className="mx-auto h-16 md:h-20 w-auto object-contain"
-            />
-          </div>
-
-          {/* Header */}
-          <div className="text-center mb-6 md:mb-8">
-            <h1 className="text-3xl md:text-4xl lg:text-6xl font-sunday-shine text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-secondary-500 mb-4">
-              {APP_CONFIG.APP_NAME}
-            </h1>
-            <p className="text-lg md:text-xl font-sketch-chalk text-gray-700">
-              🎪 Almost there! Just fill out the form below 🎪
-            </p>
-          </div>
-
-          <div className="max-w-2xl mx-auto">
-            <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-6 md:p-8 border border-primary-100">
-              <h2 className="text-2xl md:text-3xl font-handcaps text-primary-700 mb-6 text-center">
-                Fill to Spin! 🎯
-              </h2>
-              <p className="text-gray-600 mb-6 text-center">
-                Fill out the form below to register for your chance to spin the
-                wheel and win amazing prizes!
-              </p>
-              <RegistrationForm
-                onSuccess={handleRegistrationSuccess}
-                disabled={isSpinning}
+      <BackgroundLayout>
+        <div className="min-h-screen overflow-y-auto relative">
+          <div className="absolute inset-0 bg-white/50 z-0"></div>
+          <div className="container mx-auto px-4 py-4 md:py-8 relative z-10">
+            {/* Logo */}
+            <div className="text-center mb-6 md:mb-8">
+              <img
+                src={Logo}
+                alt="Logo"
+                className="mx-auto h-20 md:h-24 lg:h-28 w-auto object-contain"
               />
             </div>
 
-            <div className="text-center mt-6">
-              <Button
-                onClick={handleBackToHome}
-                variant="outline"
-                size="sm"
-                className="font-handcaps"
-              >
-                ← Back to Home
-              </Button>
+            {/* Main Title - copied from HomePage */}
+            <div className="text-center mb-6 md:mb-8">
+              {/* Wheel Spinner Title with rotated background */}
+              <div className="relative mb-6">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="bg-[#00A1AF]/90 h-12 md:h-16 lg:h-20 w-full transform -rotate-3 rounded-sm filter bg-blend-multiply"></div>
+                </div>
+                <h1 className="relative text-5xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-9xl font-sunday-shine text-white mb-4 drop-shadow-lg z-10">
+                  Wheel Spinner
+                </h1>
+              </div>
+
+              {/* Spin to Win */}
+              <div className="text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-sketch-chalk text-[#543584] mb-4">
+                Spin to win
+              </div>
+
+              {/* Amazing Prizes with prize icons */}
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <img
+                  src={PrizeSvg}
+                  alt="Prize"
+                  className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12"
+                />
+                <span className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-handcaps font-black text-[#543584] text-opacity-80">
+                  amazing prizes
+                </span>
+                <img
+                  src={PrizeSvg}
+                  alt="Prize"
+                  className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12"
+                />
+              </div>
+            </div>
+
+            <div className="max-w-2xl mx-auto">
+              <div className="border-2 border-[#00A4C2] rounded-xl p-6 md:p-8">
+                <h2 className="text-2xl md:text-3xl font-handcaps text-[#543584] mb-6 text-center flex items-center justify-center gap-3">
+                  <span>Fill to Spin!</span>
+                  <img src={Star2Svg} alt="Star" className="w-6 h-6" />
+                </h2>
+                <p className="text-[#543584] font-poppins font-bold mb-6 text-center">
+                  Fill out the form below to register for your chance to spin
+                  the wheel and win amazing prizes!
+                </p>
+                <RegistrationForm
+                  onSuccess={handleRegistrationSuccess}
+                  disabled={isSpinning}
+                />
+              </div>
+
+              <div className="text-center mt-6">
+                <Button
+                  onClick={handleBackToHome}
+                  variant="ghost"
+                  size="md"
+                  className="font-bold text-[#543584] border-2 border-[#543584] hover:bg-[#543584]/10 px-6 py-3 flex items-center gap-2 mx-auto"
+                >
+                  <img src={HomeSvg} alt="Home" className="w-5 h-5" />
+                  <span className="font-handcaps text-lg">Back to Home</span>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </BackgroundLayout>
     );
   }
 
   // Show wheel page (currentPage === 'wheel')
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-blue-50 to-secondary-50 overflow-y-auto">
-      <div className="container mx-auto px-4 py-4 md:py-8">
-        {/* HAMC Logo */}
-        <div className="text-center mb-4 md:mb-6">
-          <img
-            src={HAMCLogo}
-            alt="Houston American Medical Center"
-            className="mx-auto h-16 md:h-20 w-auto object-contain"
-          />
-        </div>
+    <BackgroundLayout>
+      <div className="min-h-screen overflow-y-auto relative">
+        <div className="absolute inset-0 bg-white/50 z-0"></div>
+        <div className="container mx-auto px-4 py-4 md:py-8 relative z-10">
+          {/* Logo */}
+          <div className="text-center mb-6 md:mb-8">
+            <img
+              src={Logo}
+              alt="Logo"
+              className="mx-auto h-20 md:h-24 lg:h-28 w-auto object-contain"
+            />
+          </div>
 
-        {/* Header */}
-        <div className="text-center mb-6 md:mb-8">
-          <h1 className="text-3xl md:text-4xl lg:text-6xl font-sunday-shine text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-secondary-500 mb-4">
-            {APP_CONFIG.APP_NAME}
-          </h1>
-          <p className="text-lg md:text-xl font-sketch-chalk text-gray-700 mb-2">
-            🎪 Ready to Spin, {currentUser?.firstName}? 🎪
-          </p>
-        </div>
-
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-start">
-            {/* Wheel Section */}
-            <div className="flex flex-col items-center order-1 lg:order-none">
-              <div className="mb-4 md:mb-6">
-                <div className="w-full max-w-[280px] sm:max-w-[350px] aspect-square">
-                  <WheelComponent
-                    segments={wheelConfig.segments}
-                    isSpinning={isSpinning}
-                    selectedSegmentIndex={selectedSegmentIndex}
-                    onSpinComplete={() => {
-                      console.log(
-                        "[WheelApp] onSpinComplete callback triggered"
-                      );
-                      console.log("[WheelApp] Current state:", {
-                        isSpinning,
-                        hasResult: !!wheelState.result,
-                        result: wheelState.result,
-                        selectedSegmentIndex,
-                      });
-                      // Wheel animation has completed, show the result
-                      if (wheelState.result) {
-                        console.log("[WheelApp] Showing result modal");
-                        showResult();
-                        setIsSpinning(false);
-                        setSelectedSegmentIndex(undefined); // Reset for next spin
-                      } else {
-                        console.log(
-                          "[WheelApp] No result available yet, not showing modal"
-                        );
-                      }
-                    }}
-                    size={350}
-                  />
-                </div>
+          {/* Main Title - copied from HomePage */}
+          <div className="text-center mb-6 md:mb-8">
+            {/* Wheel Spinner Title with rotated background */}
+            <div className="relative mb-6">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="bg-[#00A1AF]/90 h-12 md:h-16 lg:h-20 w-full transform -rotate-3 rounded-sm filter bg-blend-multiply"></div>
               </div>
-
-              {/* Spin Button */}
-              {currentUser && !currentUser.hasSpun && (
-                <Button
-                  onClick={handleSpin}
-                  size="lg"
-                  disabled={isFetchingResult || isSpinning}
-                  loading={isFetchingResult || isSpinning}
-                  className={`px-8 py-4 text-2xl font-handcaps transform hover:scale-105 transition-transform duration-200 shadow-2xl ${
-                    isIPhoneDevice ? "mt-[50px]" : ""
-                  }`}
-                >
-                  {isFetchingResult
-                    ? "Getting your prize..."
-                    : isSpinning
-                    ? "Spinning..."
-                    : "SPIN THE WHEEL!"}
-                </Button>
-              )}
-
-              {/* Spin Error */}
-              {spinError && (
-                <div className="mt-4 w-full max-w-md">
-                  <Alert
-                    type="error"
-                    message={spinError}
-                    onClose={clearError}
-                  />
-                </div>
-              )}
+              <h1 className="relative text-5xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-9xl font-sunday-shine text-white mb-4 drop-shadow-lg z-10">
+                Wheel Spinner
+              </h1>
             </div>
 
-            {/* Info Section */}
-            <div className="lg:pl-8 order-2 lg:order-none">
-              <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-4 md:p-6 border border-primary-100">
-                <h2 className="text-2xl md:text-3xl font-handcaps text-primary-700 mb-4">
-                  You're All Set! 🌟
-                </h2>
+            {/* Spin to Win */}
+            <div className="text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-sketch-chalk text-[#543584] mb-4">
+              Spin to win
+            </div>
 
-                <div className="space-y-4">
-                  <p className="text-gray-700 font-medium">
-                    Click the "SPIN THE WHEEL!" button to try your luck and see
-                    what amazing prize awaits you!
-                  </p>
+            {/* Ready to Spin text */}
+            <div className="flex items-center justify-center gap-3">
+              <img src={PrizeSvg} alt="Prize" className="w-6 h-6" />
+              <p className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-handcaps font-black text-[#543584] text-opacity-80">
+                Ready to Spin, {currentUser?.firstName}?
+              </p>
+              <img src={PrizeSvg} alt="Prize" className="w-6 h-6" />
+            </div>
+          </div>
 
-                  <div className="bg-gradient-to-r from-primary-50 to-secondary-50 border border-primary-200 rounded-2xl p-3 md:p-4">
-                    <h3 className="font-handcaps text-primary-800 mb-3 text-base md:text-lg">
-                      🎯 Quick Reminders:
-                    </h3>
-                    <ul className="text-sm text-primary-700 space-y-2">
-                      <li className="flex items-start">
-                        <span className="text-primary-500 font-bold mr-2">
-                          •
-                        </span>
-                        <span>This is your one and only spin</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-primary-500 font-bold mr-2">
-                          •
-                        </span>
-                        <span>Winners get contacted via email</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-primary-500 font-bold mr-2">
-                          •
-                        </span>
-                        <span>Prizes must be claimed within 90 days</span>
-                      </li>
-                      <li className="flex items-start">
-                        <span className="text-amber-500 font-bold mr-2">
-                          ✨
-                        </span>
-                        <span className="font-medium">Good luck! 🍀</span>
-                      </li>
-                    </ul>
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-start">
+              {/* Wheel Section */}
+              <div className="flex flex-col items-center order-1 lg:order-none">
+                <div className="mb-4 md:mb-6">
+                  <div className="w-full max-w-[450px] sm:max-w-[500px] aspect-square">
+                    <WheelComponent
+                      segments={wheelConfig.segments}
+                      isSpinning={isSpinning}
+                      selectedSegmentIndex={selectedSegmentIndex}
+                      onSpinComplete={() => {
+                        console.log(
+                          "[WheelApp] onSpinComplete callback triggered"
+                        );
+                        console.log("[WheelApp] Current state:", {
+                          isSpinning,
+                          hasResult: !!wheelState.result,
+                          result: wheelState.result,
+                          selectedSegmentIndex,
+                        });
+                        // Wheel animation has completed, show the result
+                        if (wheelState.result) {
+                          console.log("[WheelApp] Showing result modal");
+                          showResult();
+                          setIsSpinning(false);
+                          setSelectedSegmentIndex(undefined); // Reset for next spin
+                        } else {
+                          console.log(
+                            "[WheelApp] No result available yet, not showing modal"
+                          );
+                        }
+                      }}
+                      size={350}
+                    />
+                  </div>
+                </div>
+
+                {/* Spin Button */}
+                {currentUser && !currentUser.hasSpun && (
+                  <Button
+                    onClick={handleSpin}
+                    size="lg"
+                    disabled={isFetchingResult || isSpinning}
+                    loading={isFetchingResult || isSpinning}
+                    className={`px-8 py-4 text-2xl font-handcaps transform hover:scale-105 transition-transform duration-200 shadow-2xl ${
+                      isIPhoneDevice ? "mt-[50px]" : ""
+                    }`}
+                  >
+                    {isFetchingResult
+                      ? "Spinning..."
+                      : isSpinning
+                      ? "Spinning..."
+                      : "SPIN THE WHEEL!"}
+                  </Button>
+                )}
+
+                {/* Spin Error */}
+                {spinError && (
+                  <div className="mt-4 w-full max-w-md">
+                    <Alert
+                      type="error"
+                      message={spinError}
+                      onClose={clearError}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Info Section */}
+              <div className="lg:pl-8 order-2 lg:order-none">
+                <div className="border-2 border-[#543584] rounded-xl p-4 md:p-6">
+                  <h2 className="text-2xl md:text-3xl font-handcaps text-[#543584] mb-4 flex items-center gap-2">
+                    <span>You're All Set!</span>
+                    <img src={Star2Svg} alt="Star" className="w-6 h-6" />
+                  </h2>
+
+                  <div className="space-y-4">
+                    <p className="text-[#543584] font-poppins font-semibold">
+                      Click the "SPIN THE WHEEL!" button to try your luck and
+                      see what amazing prize awaits you!
+                    </p>
+
+                    <div className="border border-[#543584] rounded-xl p-3 md:p-4">
+                      <h3 className="font-handcaps text-[#543584] mb-3 text-base md:text-lg flex items-center gap-2">
+                        <img src={PrizeSvg} alt="Prize" className="w-5 h-5" />
+                        <span>Quick Reminders:</span>
+                      </h3>
+                      <ul className="text-sm text-[#543584] font-poppins space-y-2">
+                        <li className="flex items-start">
+                          <span className="text-[#00A4C2] font-bold mr-2">
+                            •
+                          </span>
+                          <span>This is your one and only spin</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="text-[#00A4C2] font-bold mr-2">
+                            •
+                          </span>
+                          <span>Winners get contacted via email</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="text-[#00A4C2] font-bold mr-2">
+                            •
+                          </span>
+                          <span>Prizes must be claimed within 90 days</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="text-[#00A4C2] font-bold mr-2">
+                            ✨
+                          </span>
+                          <span className="font-medium">Good luck! 🍀</span>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Result Modal */}
-        {wheelState.result && (
-          <SpinResult
-            result={wheelState.result}
-            isVisible={wheelState.showResult}
-            onClose={handleResultClose}
-          />
-        )}
+          {/* Result Modal */}
+          {wheelState.result && (
+            <SpinResult
+              result={wheelState.result}
+              isVisible={wheelState.showResult}
+              onClose={handleResultClose}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </BackgroundLayout>
   );
 };

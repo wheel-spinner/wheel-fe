@@ -16,6 +16,27 @@
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+/* Custom styles for registration form phone input */
+.registration-phone-input .PhoneInput {
+  border: 2px solid #543584;
+  background-color: transparent;
+  font-family: 'Poppins', sans-serif;
+}
+
+.registration-phone-input .PhoneInput:focus-within {
+  border-color: #543584;
+  box-shadow: 0 0 0 3px rgba(84, 53, 133, 0.2);
+}
+
+.registration-phone-input .PhoneInputInput {
+  color: #543584;
+  font-family: 'Poppins', sans-serif;
+}
+
+.registration-phone-input .PhoneInputInput::placeholder {
+  color: rgba(84, 53, 133, 0.5);
+}
+
 .phone-input-error {
   border-color: #ef4444 !important;
 }
