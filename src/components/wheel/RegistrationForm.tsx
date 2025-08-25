@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { type UserRegistration, type FormErrors } from "../../types";
 import { useUserRegistration, useFormValidation } from "../../hooks";
-import { Button, Input, Alert, PhoneInput } from "../ui";
+import { Button, Alert, PhoneInput } from "../ui";
 import { normalizeEmail, normalizeName } from "../../utils/validation";
 import SubmitSvg from "../../assets/submit.svg";
 import "../../styles/phone-input.css";

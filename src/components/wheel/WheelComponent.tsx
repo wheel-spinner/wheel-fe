@@ -36,8 +36,6 @@ export const WheelComponent: React.FC<WheelComponentProps> = ({
   const wheelData = segments.map((segment, index) => {
     const bgColor = purpleColors[index % purpleColors.length];
     const textColor = bgColor === "#ffffff" ? "#543584" : "#ffffff";
-
-    console.log(segment.label);
     if (segment.label === "2mL Fillers For Cheeks") {
       return {
         option: segment.label,
@@ -63,24 +61,10 @@ export const WheelComponent: React.FC<WheelComponentProps> = ({
   });
 
   useEffect(() => {
-    console.log("[WheelComponent] useEffect triggered:", {
-      isSpinning,
-      mustSpin,
-      hasStartedSpinning,
-      selectedSegmentIndex,
-      segmentsLength: segments.length,
-    });
-
     if (isSpinning && !hasStartedSpinning) {
       const targetIndex =
         selectedSegmentIndex ?? Math.floor(Math.random() * segments.length);
       const startPos = Math.floor(Math.random() * segments.length);
-
-      console.log("[WheelComponent] Starting spin:", {
-        targetIndex,
-        startingPosition: startPos,
-        prizeNumber: targetIndex,
-      });
 
       setStartingPosition(startPos);
       setPrizeNumber(targetIndex);
@@ -89,15 +73,11 @@ export const WheelComponent: React.FC<WheelComponentProps> = ({
     }
 
     if (!isSpinning && hasStartedSpinning) {
-      console.log("[WheelComponent] Resetting hasStartedSpinning");
       setHasStartedSpinning(false);
     }
   }, [isSpinning, selectedSegmentIndex, hasStartedSpinning, segments.length]);
 
   const handleStopSpinning = () => {
-    console.log(
-      "[WheelComponent] handleStopSpinning called, wheel animation complete"
-    );
     setMustSpin(false);
     onSpinComplete();
   };
@@ -108,13 +88,7 @@ export const WheelComponent: React.FC<WheelComponentProps> = ({
     );
   }
 
-  console.log("[WheelComponent] Rendering wheel with:", {
-    mustSpin,
-    prizeNumber,
-    startingPosition,
-    hasStartedSpinning,
-    segmentsCount: segments.length,
-  });
+  console.log(size);
 
   return (
     <div className="flex items-center justify-center relative">

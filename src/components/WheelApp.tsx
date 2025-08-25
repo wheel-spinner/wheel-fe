@@ -8,7 +8,7 @@ import { BackgroundLayout } from "./BackgroundLayout";
 import { useWheelConfig, useWheelSpin } from "../hooks";
 import { useWheelContext } from "../contexts";
 import { type UserRegistration } from "../types";
-import { APP_CONFIG, ERROR_MESSAGES } from "../utils/constants";
+import { ERROR_MESSAGES } from "../utils/constants";
 import { isWinningPrize, isIPhone } from "../utils/helpers";
 import Logo from "../assets/logo.png";
 import PrizeSvg from "../assets/prize.svg";
